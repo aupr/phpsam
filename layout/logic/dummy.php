@@ -1,0 +1,3 @@
+<?php
+
+// Logic processing layout

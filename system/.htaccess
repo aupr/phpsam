@@ -1,0 +1,9 @@
+
+# Deny all file from this directory and subdirectory
+<Files *.*>
+Order Deny,Allow
+Deny from all
+</Files>
+
+# Access Forbidden 403 error handler
+ErrorDocument 403 '<h1 style="text-align:center;margin-top:100px;">OPPS! ACCESS DENIED</h1>'

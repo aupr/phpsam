@@ -1,0 +1,15 @@
+
+# Deny all file from this directory and subdirectory
+<Files *.*>
+Order Deny,Allow
+Deny from all
+</Files>
+
+# Allow some special file to include as javascript library and stylesheet
+<FilesMatch "\.(map|css|js|json|ttf|eot|woff|woff2|ico|png|jpg|jpeg|gif|tif|tiff|svg|bmp|doc|docx|csv|xls|xlsx|ppt|pptx)$">
+   order deny,allow
+   allow from all
+ </FilesMatch>
+
+# Access Forbidden 403 error handler
+ErrorDocument 403 '<h1 style="text-align:center;margin-top:100px;">OPPS! ACCESS DENIED</h1>'

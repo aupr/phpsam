@@ -1,0 +1,116 @@
+
+
+# SimpleWork author: Aman Ullah, E-mail: amanullah.en@gmail.com
+
+# Here is some guidelines to edit .htaccess file
+# Help for mod_rewrite.c is here> https://www.addedbytes.com/articles/for-beginners/url-rewriting-for-beginners/
+# Help for mod_rewrite.c Main documentation is here> http://httpd.apache.org/docs/current/rewrite/
+# General htaccess htlp is here > http://www.htaccess-guide.com/
+
+# If you want to make your custom file extenstions
+# then uncomment the following line and write your extention insted of .foo :
+# AddType application/x-httpd-php .foo
+AddType application/x-httpd-php .sam
+
+# If you want to serve alternate default index page
+# then uncomment the following line:
+# DirectoryIndex custom.html
+DirectoryIndex preface.sam
+DirectoryIndex index.html
+
+# If you want to disable directoty browsing
+# then uncoment the following line:
+# Options All -Indexes
+
+# If you want to  disable directory listings
+# then uncomment the following line:
+# IndexIgnore *
+
+# If your want to prevent listing particular files
+# then uncomment the following lines and add your file extentions insted of examples:
+# IndexIgnore *.zip *.jpg *.gif
+
+# If you want to enable directory browsing (If your default server does not permit directory bowsing)
+# then uncomment the following line:
+# Options All +Indexes
+# or
+# Options +Indexes
+
+# If you want to view fancy indexing
+# then uncomment the following line:
+# IndexOptoins FancyIndexing
+
+# If you want to deny access for a particular file
+# then uncomment the following lines replacing e.txt into your desired file name
+# <files *.*>
+#   order allow,deny
+#   deny from all
+# </files>
+
+# If you want to deny access for some particular file extentions
+# then uncomment the following lines replacing the example extention group into your desired extention group
+# <FilesMatch "\.(txt|ico)$">
+#   order allow,deny
+#   deny from all
+# </FilesMatch>
+
+# If you want to add default character set
+# then uncomment the following line replacing utf-8 into your desired one
+# AddDefaultCharset utf-8
+
+# If your want to ensure that any media files are treated as a download,
+# rather than to be played by the browser.
+# then uncomment the following line replacing your desired file types:
+# AddType application/octet-stream .zip .mp3 .mp4
+
+# If you want to to setup further error documents, for example for
+# '401 Unauthorised', '403 Forbidden', and '500 Internal Server' error messages,
+# then uncomment the following line/lines as your desired:
+# ErrorDocument 401 /error_pages/401.html
+# ErrorDocument 404 /error_pages/404.html
+# ErrorDocument 500 /error_pages/500.html
+
+# if you have moved your web site content and would like to redirect visitors
+# from old links to the new content location.
+# then uncomment the following line and change for you:
+# Redirect /old_dir/ http://www.yourdomain.com/new_dir/index.html
+
+# Various rewrite rules.
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+
+  # If your site can be accessed both with and without the 'www.' prefix, you
+  # can use one of the following settings to redirect users to your preferred
+  # URL, either WITH or WITHOUT the 'www.' prefix. Choose ONLY one option:
+  #
+  # To redirect all users to access the site WITH the 'www.' prefix,
+  # (http://example.com/... will be redirected to http://www.example.com/...)
+  # adapt and uncomment the following:
+  # RewriteCond %{HTTP_HOST} ^example\.com$ [NC]
+  # RewriteRule ^(.*)$ http://www.example.com/$1 [L,R=301]
+  #
+  # To redirect all users to access the site WITHOUT the 'www.' prefix,
+  # (http://www.example.com/... will be redirected to http://example.com/...)
+  # uncomment and adapt the following:
+  # RewriteCond %{HTTP_HOST} ^www\.example\.com$ [NC]
+  # RewriteRule ^(.*)$ http://example.com/$1 [L,R=301]
+
+  # Modify the RewriteBase if you are using Application in a subdirectory or in a
+  # VirtualDocumentRoot and the rewrite rules are not working properly.
+  # For example if your site is at http://example.com/application uncomment and
+  # modify the following line:
+  RewriteBase /phpsam/app/
+
+  #
+  # If your site is running in a VirtualDocumentRoot at http://example.com/,
+  # uncomment the following line:
+  # RewriteBase /
+
+  # Rewrite URLs of the form 'x' to the form 'index.php?q=x'.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  # RewriteCond %{REQUEST_URI} !=/favicon.ico
+  RewriteRule ^(.*)$ index.html?q=$1 [L,QSA]
+</IfModule>
+

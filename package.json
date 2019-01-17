@@ -1,0 +1,34 @@
+{
+  "name": "simplework",
+  "version": "1.0.1",
+  "description": "\u001b[2~It's a project to build new php projects where the folder tree and common libraries are included along with.",
+  "main": "preface.sw",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aupr/SimpleWork.git"
+  },
+  "keywords": [
+    "\"php",
+    "simplework\"",
+    "\"simple",
+    "work\"",
+    "\"simplework\"",
+    "\"php",
+    "library\"",
+    "\"php",
+    "folder",
+    "tree\""
+  ],
+  "author": {
+    "name": "Aman Ullah",
+    "email": "amanullah.snet@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aupr/SimpleWork/issues"
+  },
+  "homepage": "https://github.com/aupr/SimpleWork#readme"
+}
