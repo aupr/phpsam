@@ -105,7 +105,7 @@ function start($fname)
     } elseif (isset($_REQUEST['transfer'])) {
         $exitMsg = '{PHPSAM-Invalid-File-Transfer-Route}';
         if (!strlen($_REQUEST['transfer'])) exit($exitMsg);
-        if (sizeof($ires = glob(DIR_API . $_REQUEST['transfer'] . '.*', GLOB_NOSORT))) {
+        if (sizeof($ires = glob(DIR_TRANSFER . $_REQUEST['transfer'] . '.*', GLOB_NOSORT))) {
             return $ires[0];
         } else {
             exit($exitMsg);
