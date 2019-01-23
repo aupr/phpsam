@@ -1,32 +1,43 @@
 <?php
 
-httpMethod::get(function (){
-    echo "iam from get fnc: ";
+httpMethod::get(function ($request){
+    return "iam from get fnc: $request";
 });
 
-echo file_get_contents('php://input');
+//echo file_get_contents('php://input');
 
 echo '<br><br><br>';
 
 class A{
-    static function cb($callB) {
-        $callB(10);
-    }
+    public $name;
+    public $age;
 }
 
-A::cb(function ($data) {
-    echo "method call $data";
-});
 
-function doIt($callback) {
-    $callback();
+class B{
+    public $type;
+    public $size;
 }
 
-doIt(function() {
-    echo '<br><br>call back function working';
-});
+$AO = new A();
+$AO->name = "Aman";
+$AO->age = 26;
+
+$BO = new B();
+$BO->size = 10;
+$BO->type = $AO;
+
+$CO = array($BO, $BO, $BO);
+
+echo json_encode($CO);
 
 
 echo "<pre>";
+
+var_dump($dec = json_decode('[{"type":{"name":"Aman","age":26},"size":10},{"type":{"name":"Aman","age":26},"size":10},{"type":{"name":"Aman","age":26},"size":10}]'));
+echo "decoded json objects\n";
+echo $dec[0]->type->name;
+
+echo "\n";
 
 var_dump($_SERVER);
