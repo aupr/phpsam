@@ -27,6 +27,6 @@ class Cookie
     }
 
     public function delete($key){
-        setcookie($key, '', time() - 42000, $this->path, $this->domain);
+        setcookie($key, '', time() - 42000, '/'.$this->path, $this->domain);
     }
 }

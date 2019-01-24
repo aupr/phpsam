@@ -22,17 +22,16 @@ spl_autoload_register(function ($class_name) {
 });
 
 // Set the value of configuration from target ini file
-foreach (parse_ini_file(DIR_ . 'sw.ini') as $key => $value) {
+foreach (parse_ini_file(DIR_ . 'sam.ini') as $key => $value) {
     ini_set($key, $value);
 }
 
 // URL router object
-global $url;
-$url = new url(HTTP_SERVER . WDN);
+//global $url;
+//$url = new url(HTTP_SERVER . WDN);
 
 // Encryption manager object
 global $encryption;
-// TODO: have to change the deprecated function considering php version
 $encryption = new encryption(ENCRYPTION_HASH);
 
 // Database manager object
@@ -45,12 +44,11 @@ $cache = new cache('file', 3600);
 
 // Cookie manager object
 global $cookie;
-$cookie = new cookie(WDN);
+$cookie = new cookie(WDN, "localhost", false, false);
 
 // Session manager object
 global $session;
-// TODO: have to review the class for session name comparison
-$session = new session('native', WDN);
+$session = new session('file');
 
 // File downloader object
 global $downloader;
@@ -63,8 +61,8 @@ $email = new mail();
 // Log manager object
 global $error_log;
 global $query_log;
-$error_log = new log(DIR_LOGS, 'error.log');
-$query_log = new log(DIR_LOGS, 'query.log');
+$error_log = new log('error.log');
+$query_log = new log('query.log');
 
 
 // Including the layout files

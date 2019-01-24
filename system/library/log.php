@@ -1,9 +1,10 @@
 <?php
+
 class Log {
 	private $handle;
 
-	public function __construct($logpath, $filename) {
-		$this->handle = fopen($logpath . $filename, 'a');
+	public function __construct($filename) {
+		$this->handle = fopen(DIR_LOGS . $filename, 'a');
 	}
 
 	public function write($message) {

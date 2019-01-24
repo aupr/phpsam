@@ -3,7 +3,7 @@ namespace Cache;
 class Mem {
 	private $expire;
 	private $memcache;
-
+	
 	const CACHEDUMP_LIMIT = 9999;
 
 	public function __construct($expire) {
@@ -22,23 +22,6 @@ class Mem {
 	}
 
 	public function delete($key) {
-		$all_slabs = $this->memcache->getExtendedStats('slabs');
-		foreach ($all_slabs as $server => $slabs) {
-			foreach ($slabs as $slab_id => $slab_meta) {
-				if (!is_int($slab_id)) {
-					continue;
-				}
-				$cachedump = $this->memcache->getExtendedStats('cachedump', $slab_id, self::CACHEDUMP_LIMIT);
-				foreach ($cachedump as $server => $entries) {
-					if (!empty($entries) && is_array($entries)) {
-						foreach (array_keys($entries) as $entry_key) {
-							if (strpos($entry_key, CACHE_PREFIX . $key) === 0) {
-								$this->memcache->delete($entry_key);
-							}
-						}
-					}
-				}
-			}
-		}
+		$this->memcache->delete(CACHE_PREFIX . $key);
 	}
 }

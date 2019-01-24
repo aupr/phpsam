@@ -5,6 +5,7 @@ class File {
 
 	public function __construct($expire = 3600) {
 		$this->expire = $expire;
+
 		$files = glob(DIR_CACHE . 'cache.*');
 
 		if ($files) {
@@ -25,10 +26,15 @@ class File {
 
 		if ($files) {
 			$handle = fopen($files[0], 'r');
+
 			flock($handle, LOCK_SH);
+
 			$data = fread($handle, filesize($files[0]));
+
 			flock($handle, LOCK_UN);
+
 			fclose($handle);
+
 			return json_decode($data, true);
 		}
 
@@ -37,12 +43,19 @@ class File {
 
 	public function set($key, $value) {
 		$this->delete($key);
+
 		$file = DIR_CACHE . 'cache.' . preg_replace('/[^A-Z0-9\._-]/i', '', $key) . '.' . (time() + $this->expire);
+
 		$handle = fopen($file, 'w');
+
 		flock($handle, LOCK_EX);
+
 		fwrite($handle, json_encode($value));
+
 		fflush($handle);
+
 		flock($handle, LOCK_UN);
+
 		fclose($handle);
 	}
 

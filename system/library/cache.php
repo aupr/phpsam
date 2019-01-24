@@ -1,4 +1,5 @@
 <?php
+
 class Cache {
 	private $adaptor;
 
@@ -11,7 +12,7 @@ class Cache {
 			throw new \Exception('Error: Could not load cache adaptor ' . $adaptor . ' cache!');
 		}
 	}
-	
+
 	public function get($key) {
 		return $this->adaptor->get($key);
 	}
