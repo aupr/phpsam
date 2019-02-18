@@ -44,7 +44,7 @@ $cache = new cache('file', 3600);
 
 // Cookie manager object
 global $cookie;
-$cookie = new cookie(WDN, "localhost", false, false);
+$cookie = new cookie(/*WDN*/"", 'http://localhost:4200', false, false);
 
 // Session manager object
 global $session;

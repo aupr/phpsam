@@ -5,62 +5,67 @@
 
 // simple login format
 
-// Startup the session
+$devMode = true;
 $sessionCookieName = "SAMSESSID";
-if ($tokenId = $cookie->get($sessionCookieName)){
-    $session->start($tokenId);
+if ($devMode){
+    // Allow CORS headers
+    header('Access-Control-Allow-Origin: *');
+    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+
+    // set the defined token for development mode
+    $session->start('thisIsDevelopmentModeToken');
 } else {
-    $cookie->set($sessionCookieName, $session->start());
+    // Startup the session
+    if ($tokenId = $cookie->get($sessionCookieName)){
+        $session->start($tokenId);
+    } else {
+        $cookie->set($sessionCookieName, $session->start());
+    }
+}
+
+
+function response_401(){
+    global $session;
+    header("HTTP/1.1 401 Unauthorized");
+    $session->data = array();
+    exit();
 }
 
 function authGuard() {
     global $session;
     // Check the data available
     if (empty($session->data)){
-        // route to the login page or send 401 response
-        echo "you are not logged in";
-        exit();
+        response_401();
     } else {
         // check whether the data is valid or not
         if (isset($session->data['http-user-agent']) and isset($session->data['user-id'])){
             // Check the data is valid or not
-            if ($session->data['http-user-agent'] == $_SERVER['HTTP_USER_AGENT'] and $session->data['user-id'] == 1){
+            if ($session->data['http-user-agent'] == $_SERVER['HTTP_USER_AGENT']){
                 // Authentic User
-                echo "Welcome you are logged in";
+                // echo "Welcome you are logged in";
             } else {
-                // route to the login page or send 401 response
-                $session->data = array();
-                exit();
+                response_401();
             }
         } else {
-            // route to the login page or send 401 response
-            $session->data = array();
-            exit();
+            response_401();
         }
     }
 }
 
-
-
-
-
-
-/*
-if ($cookie->get('SAMSESSID')){
-    $session->start($_COOKIE['SAMSESSID']);
-    echo "old set val \n";
-    var_dump($session->data);
-    if (empty($session->data)){
-        $cookie->delete('SAMSESSID');
+function login($userId, $password) {
+    global $session;
+    // fetch data from database and verify
+    if ( $userId == "111" and  $password == "1234") {
+        $session->data = array(
+            "http-user-agent" => $_SERVER['HTTP_USER_AGENT'],
+            "user-id" => $userId
+        );
     }
-} else {
-    $cookie->set("SAMSESSID", $session->start());
-    $session->data = array("name"=>"aman", "age"=>26);
-    $session->close();
-    echo "new set val \n";
-    var_dump($session->data);
-}*/
+}
 
+function logout() {
+    global $session;
+    $session->data = array();
+}
 
-//header("HTTP/1.1 401 Unauthorized");
-//exit;
