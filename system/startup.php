@@ -22,7 +22,7 @@ spl_autoload_register(function ($class_name) {
 });
 
 // Set the value of configuration from target ini file
-foreach (parse_ini_file(DIR_ . 'sam.ini') as $key => $value) {
+foreach (parse_ini_file(DIR_ . 'saam.ini') as $key => $value) {
     ini_set($key, $value);
 }
 
@@ -93,7 +93,7 @@ function routeDefault($fname)
 function start($fname)
 {
     if (isset($_REQUEST['api'])) {
-        $exitMsg = '{PHPSAM-Invalid-API-Route}';
+        $exitMsg = '{PHPSAAM-Invalid-API-Route}';
         if (!strlen($_REQUEST['api'])) exit($exitMsg);
         if (sizeof($ires = glob(DIR_API . $_REQUEST['api'] . '.*', GLOB_NOSORT))) {
             return $ires[0];
@@ -101,7 +101,7 @@ function start($fname)
             exit($exitMsg);
         }
     } elseif (isset($_REQUEST['transfer'])) {
-        $exitMsg = '{PHPSAM-Invalid-File-Transfer-Route}';
+        $exitMsg = '{PHPSAAM-Invalid-File-Transfer-Route}';
         if (!strlen($_REQUEST['transfer'])) exit($exitMsg);
         if (sizeof($ires = glob(DIR_TRANSFER . $_REQUEST['transfer'] . '.*', GLOB_NOSORT))) {
             return $ires[0];

@@ -7,7 +7,7 @@ define('HTTP_SERVER', 'http://localhost/');
 define('HTTPS_SERVER', 'http://localhost/');
 
 // Working Directory name
-define('WDN', 'phpsam/');
+define('WDN', 'phpsaam/');
 
 // Application Directory Name
 define('ADN', 'app/');

@@ -10,12 +10,12 @@
 # If you want to make your custom file extenstions
 # then uncomment the following line and write your extention insted of .foo :
 # AddType application/x-httpd-php .foo
-AddType application/x-httpd-php .sam
+AddType application/x-httpd-php .saam
 
 # If you want to serve alternate default index page
 # then uncomment the following line:
 # DirectoryIndex custom.html
-DirectoryIndex preface.sam
+DirectoryIndex preface.saam
 DirectoryIndex index.html
 
 # If you want to disable directoty browsing
@@ -99,7 +99,7 @@ DirectoryIndex index.html
   # VirtualDocumentRoot and the rewrite rules are not working properly.
   # For example if your site is at http://example.com/application uncomment and
   # modify the following line:
-  RewriteBase /phpsam/app/
+  RewriteBase /phpsaam/app/
 
   #
   # If your site is running in a VirtualDocumentRoot at http://example.com/,
