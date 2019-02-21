@@ -4,12 +4,12 @@ class RitUniqueCode
     private $digits;
     private $uppdrcase;
     private $lowercase;
-    private $character;
+    private $charSet;
     private $excludeCharacters;
     private $maximumLimit;
-    private $totalCharacter;
+    private $numberOfCharacters;
     private $codeLength;
-    private $saparator;
+    private $separators;
     private $prefix;
     private $suffix;
 
@@ -21,8 +21,8 @@ class RitUniqueCode
         $this->digits = array('0','1','2','3','4','5','6','7','8','9');
         $this->uppdrcase = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
         $this->lowercase = array('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
-        $this->character = array();
-        $this->saparator = array();
+        $this->charSet = array();
+        $this->separators = array();
         $this->prefix = '';
         $this->suffix = '';
         $this->codeLength = 8;
@@ -32,17 +32,17 @@ class RitUniqueCode
      *
      */
     private function updateParams() {
-        $this->character = array_diff(array_unique($this->character), str_split($this->excludeCharacters));
-        sort($this->character);
-        $this->totalCharacter = sizeof($this->character);
-        $this->maximumLimit = bcpow((string)$this->totalCharacter, (string)$this->codeLength, 0);
+        $this->charSet = array_diff(array_unique($this->charSet), str_split($this->excludeCharacters));
+        shuffle($this->charSet);
+        $this->numberOfCharacters = sizeof($this->charSet);
+        $this->maximumLimit = bcpow((string)$this->numberOfCharacters, (string)$this->codeLength, 0);
     }
 
     /**
      *
      */
     public function pushDigits() {
-        $this->character = array_merge($this->character, $this->digits);
+        $this->charSet = array_merge($this->charSet, $this->digits);
         $this->updateParams();
     }
 
@@ -50,7 +50,7 @@ class RitUniqueCode
      *
      */
     public function pushUppercase() {
-        $this->character = array_merge($this->character, $this->uppdrcase);
+        $this->charSet = array_merge($this->charSet, $this->uppdrcase);
         $this->updateParams();
     }
 
@@ -58,31 +58,31 @@ class RitUniqueCode
      *
      */
     public function pushLowercase() {
-        $this->character = array_merge($this->character, $this->lowercase);
+        $this->charSet = array_merge($this->charSet, $this->lowercase);
         $this->updateParams();
     }
 
     /**
-     * @param $extraCharacters
+     * @param $charSetString
      */
-    public function pushExtraCharacters($extraCharacters) {
-        $this->character = array_merge($this->character, str_split($extraCharacters));
+    public function includeCharacters($charSetString) {
+        $this->charSet = array_merge($this->charSet, str_split($charSetString));
         $this->updateParams();
     }
 
     /**
-     * @param $excludeCharacters
+     * @param $charSetString
      */
-    public function excludeCharacters($excludeCharacters) {
-        $this->excludeCharacters = $excludeCharacters;
+    public function excludeCharacters($charSetString) {
+        $this->excludeCharacters = $charSetString;
         $this->updateParams();
     }
 
     /**
      * @return mixed
      */
-    public function getTotalCharacter() {
-        return $this->totalCharacter;
+    public function getNumberOfCharacters() {
+        return $this->numberOfCharacters;
     }
 
     /**
@@ -108,13 +108,13 @@ class RitUniqueCode
     private function decimalToCode($decVal) {
         if (bccomp($this->maximumLimit, "$decVal") == 1) {
             $result='';
-            while ($this->totalCharacter) {
-                $result = $result . $this->character[bcmod("$decVal", (string)$this->totalCharacter)];
-                $decVal=bcdiv("$decVal", (string)$this->totalCharacter, 0);
+            while ($this->numberOfCharacters) {
+                $result = $result . $this->charSet[bcmod("$decVal", (string)$this->numberOfCharacters)];
+                $decVal=bcdiv("$decVal", (string)$this->numberOfCharacters, 0);
 
                 if (bccomp("$decVal", '0', 0)==0) {
                     for ($i = $this->codeLength-strlen($result); $i > 0; $i--) {
-                        $result=$result . $this->character[0];
+                        $result=$result . $this->charSet[0];
                     };
                     $result=strrev($result);
                     break;
@@ -140,19 +140,20 @@ class RitUniqueCode
         $this->suffix = $string;
     }
 
-    public function setSaparator($offset, $string) {
-        $this->saparator[$offset] = $string;
-        krsort($this->saparator);
+    public function setSeparators($offset, $string) {
+        $this->separators[$offset] = $string;
+        krsort($this->separators);
     }
 
     /**
      * @param $decVal
      * @return string
+     * @throws Exception
      */
     public function codeCompose($decVal) {
         $compose = $this->decimalToCode($decVal);
 
-        foreach ($this->saparator as $key=>$value) {
+        foreach ($this->separators as $key=> $value) {
             $compose = substr_replace($compose, $value, $key, 0);
         }
 
@@ -168,25 +169,25 @@ class RitUniqueCode
      */
     private function codeReturnSchema($quantity, $startValue, $endValue, $code) {
         $saparator = array();
-        foreach ($this->saparator as $key=>$value) {
+        foreach ($this->separators as $key=> $value) {
             $saparator[] = array("offset"=>$key, "string"=>$value);
         }
         sort($saparator);
+        sort($this->charSet);
         return array(
 
-            "codeLength"=>(string)$this->codeLength,
-            "stringLength"=>(string)strlen($code[0]),
-            "pssLength"=>(string)(strlen($code[0]) - $this->codeLength),
+            "actualCodeLength"=>(string)$this->codeLength,
+            "finalCodeLength"=>(string)strlen($code[0]),
             "maximumLimit"=>(string)$this->maximumLimit,
             "startValue"=>(string)$startValue,
             "endValue"=>(string)$endValue,
-            "totalCode"=>(string)$quantity,
-            "totalCharacter"=>(string)$this->totalCharacter,
-            "character"=>(array)$this->character,
+            "numberOfCode"=>(string)$quantity,
+            "numberOfCharacter"=>(string)$this->numberOfCharacters,
+            "characterSet"=>(array)$this->charSet,
             "prefix"=>(string)$this->prefix,
             "suffix"=>(string)$this->suffix,
-            "saparator"=>(array)$saparator,
-            "code"=>(array)$code
+            "separators"=>(array)$saparator,
+            "codes"=>(array)$code
         );
     }
 
