@@ -7,7 +7,8 @@ if(sizeof($_GET) == 0){
 }
 
 // Load the required class on demand
-spl_autoload_register(function ($class_name) {
+spl_autoload_register(function ($class) {
+    $class_name = str_replace('\\', '/', strtolower($class));
     if (file_exists(DIR_LIBRARY . $class_name . '.php')) {
         include_once DIR_LIBRARY . $class_name . '.php';
     } elseif (file_exists(DIR_EXTLIB . $class_name . '.php')) {
@@ -21,8 +22,10 @@ spl_autoload_register(function ($class_name) {
     }
 });
 
+spl_autoload_extensions('php');
+
 // Set the value of configuration from target ini file
-foreach (parse_ini_file(DIR_ . 'saam.ini') as $key => $value) {
+foreach (parse_ini_file(DIR_ . 'php.ini') as $key => $value) {
     ini_set($key, $value);
 }
 
@@ -93,7 +96,7 @@ function routeDefault($fname)
 function start($fname)
 {
     if (isset($_REQUEST['api'])) {
-        $exitMsg = '{PHPSAAM-Invalid-API-Route}';
+        $exitMsg = '{PHPSAM-Invalid-API-Route}';
         if (!strlen($_REQUEST['api'])) exit($exitMsg);
         if (sizeof($ires = glob(DIR_API . $_REQUEST['api'] . '.*', GLOB_NOSORT))) {
             return $ires[0];
@@ -101,7 +104,7 @@ function start($fname)
             exit($exitMsg);
         }
     } elseif (isset($_REQUEST['transfer'])) {
-        $exitMsg = '{PHPSAAM-Invalid-File-Transfer-Route}';
+        $exitMsg = '{PHPSAM-Invalid-File-Transfer-Route}';
         if (!strlen($_REQUEST['transfer'])) exit($exitMsg);
         if (sizeof($ires = glob(DIR_TRANSFER . $_REQUEST['transfer'] . '.*', GLOB_NOSORT))) {
             return $ires[0];

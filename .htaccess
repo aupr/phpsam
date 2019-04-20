@@ -1,83 +1,48 @@
+# PHP - Simple Angular API Maker (PHP-SAAM)
+# A modified version of PHP-SimpleWork 
+# Author: Aman Ullah, E-mail: amanullah.en@gmail.com
 
+# Some guidelines to edit .htaccess file
+# mod_rewrite.c help link> https://www.addedbytes.com/articles/for-beginners/url-rewriting-for-beginners/
+# mod_rewrite.c original documentation link> http://httpd.apache.org/docs/current/rewrite/
+# htaccess general help link > http://www.htaccess-guide.com/
 
-# SimpleWork author: Aman Ullah, E-mail: amanullah.en@gmail.com
-
-# Here is some guidelines to edit .htaccess file
-# Help for mod_rewrite.c is here> https://www.addedbytes.com/articles/for-beginners/url-rewriting-for-beginners/
-# Help for mod_rewrite.c Main documentation is here> http://httpd.apache.org/docs/current/rewrite/
-# General htaccess htlp is here > http://www.htaccess-guide.com/
-
-# If you want to make your custom file extenstions
-# then uncomment the following line and write your extention insted of .foo :
-# AddType application/x-httpd-php .foo
-AddType application/x-httpd-php .saam
-
-# If you want to serve alternate default index page
-# then uncomment the following line:
-# DirectoryIndex custom.html
-DirectoryIndex preface.saam
-DirectoryIndex index.html
-
-# If you want to disable directoty browsing
-# then uncoment the following line:
-# Options All -Indexes
-
-# If you want to  disable directory listings
-# then uncomment the following line:
-# IndexIgnore *
-
-# If your want to prevent listing particular files
-# then uncomment the following lines and add your file extentions insted of examples:
-# IndexIgnore *.zip *.jpg *.gif
-
-# If you want to enable directory browsing (If your default server does not permit directory bowsing)
-# then uncomment the following line:
-# Options All +Indexes
-# or
-# Options +Indexes
-
-# If you want to view fancy indexing
-# then uncomment the following line:
-# IndexOptoins FancyIndexing
-
-# If you want to deny access for a particular file
-# then uncomment the following lines replacing e.txt into your desired file name
+# To deny the access for all file
 # <files *.*>
 #   order allow,deny
 #   deny from all
 # </files>
 
-# If you want to deny access for some particular file extentions
-# then uncomment the following lines replacing the example extention group into your desired extention group
+# To deny the access for all files except defined file extensions
 # <FilesMatch "\.(txt|ico)$">
 #   order allow,deny
 #   deny from all
 # </FilesMatch>
 
-# If you want to add default character set
-# then uncomment the following line replacing utf-8 into your desired one
+# To add default character set
 # AddDefaultCharset utf-8
 
 # If your want to ensure that any media files are treated as a download,
-# rather than to be played by the browser.
-# then uncomment the following line replacing your desired file types:
+# rather than to be played by the browser
 # AddType application/octet-stream .zip .mp3 .mp4
 
-# If you want to to setup further error documents, for example for
-# '401 Unauthorised', '403 Forbidden', and '500 Internal Server' error messages,
-# then uncomment the following line/lines as your desired:
+# To setup further error documents, for example for
+# '401 Unauthorised', '403 Forbidden', and '500 Internal Server' error messages
 # ErrorDocument 401 /error_pages/401.html
 # ErrorDocument 404 /error_pages/404.html
 # ErrorDocument 500 /error_pages/500.html
 
 # if you have moved your web site content and would like to redirect visitors
 # from old links to the new content location.
-# then uncomment the following line and change for you:
 # Redirect /old_dir/ http://www.yourdomain.com/new_dir/index.html
 
 # Various rewrite rules.
 <IfModule mod_rewrite.c>
   RewriteEngine on
+  
+  # To force http:// to https://
+   RewriteCond %{HTTPS} off
+   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
   # If your site can be accessed both with and without the 'www.' prefix, you
   # can use one of the following settings to redirect users to your preferred
@@ -101,7 +66,6 @@ DirectoryIndex index.html
   # modify the following line:
   RewriteBase /phpsaam/app/
 
-  #
   # If your site is running in a VirtualDocumentRoot at http://example.com/,
   # uncomment the following line:
   # RewriteBase /
@@ -113,4 +77,3 @@ DirectoryIndex index.html
   # RewriteCond %{REQUEST_URI} !=/favicon.ico
   RewriteRule ^(.*)$ index.html?q=$1 [L,QSA]
 </IfModule>
-

@@ -5,7 +5,7 @@ class httpRESTMethod
     private static function commonCallback($callbackFunction, $methodId){
         switch ($methodId){
             case '':
-                case $_GET['mid']: echo json_encode($callbackFunction(json_decode(file_get_contents('php://input'))));
+            case $_GET['mid']: echo json_encode($callbackFunction(json_decode(file_get_contents('php://input'))));
         }
     }
 
