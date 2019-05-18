@@ -47,7 +47,7 @@ $cache = new cache('file', 3600);
 
 // Cookie manager object
 global $cookie;
-$cookie = new cookie(/*WDN*/"", 'http://localhost:4200', false, false);
+$cookie = new cookie(/*WDN*/"", 'localhost', false, false);
 
 // Session manager object
 global $session;
@@ -88,23 +88,24 @@ function routeDefault($fname)
     if (sizeof($ires = glob(DIR_API . $fname . '.*', GLOB_NOSORT))) {
         return $ires[0];
     } else {
-        exit("{File $fname not found at api directory!}");
+        exit('{"File '.$fname.' not found at api directory!"}');
     }
 }
 
 // Route function
 function start($fname)
 {
-    if (isset($_REQUEST['api'])) {
-        $exitMsg = '{PHPSAM-Invalid-API-Route}';
+    if (isset($_GET['api'])) {
+        header("Content-Type: application/json");
+        $exitMsg = '{"PHPSAM-Invalid-API-Route"}';
         if (!strlen($_REQUEST['api'])) exit($exitMsg);
         if (sizeof($ires = glob(DIR_API . $_REQUEST['api'] . '.*', GLOB_NOSORT))) {
             return $ires[0];
         } else {
             exit($exitMsg);
         }
-    } elseif (isset($_REQUEST['transfer'])) {
-        $exitMsg = '{PHPSAM-Invalid-File-Transfer-Route}';
+    } elseif (isset($_GET['transfer'])) {
+        $exitMsg = '{"PHPSAM-Invalid-File-Transfer-Route"}';
         if (!strlen($_REQUEST['transfer'])) exit($exitMsg);
         if (sizeof($ires = glob(DIR_TRANSFER . $_REQUEST['transfer'] . '.*', GLOB_NOSORT))) {
             return $ires[0];

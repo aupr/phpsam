@@ -1,35 +1,36 @@
 <?php
-// TODO: it's a remind to check the angular app 'href' at index.html
+// TODO: it's for remind to check
+// TODO: Application 'href' at index.html
+// TODO: Storage directory "DIR_STORAGE"
 
-// HTTP
-// TODO: have to change
-define('HTTP_SERVER', 'http://localhost/');
+// Protocol
+// TODO: Change according to the server protocol http or https
+define('PROTOCOL', 'http');
 
-// HTTPS
-// TODO: have to change
-define('HTTPS_SERVER', 'http://localhost/');
+// Domain
+// TODO: Give server domain name or ip address along with port number
+define('DOMAIN', 'localhost');
 
 // Working Directory name
 // TODO: Change it or make it empty if public directory
-define('WDN', 'phpsaam/');
+define('WDN', 'phpsam/');
 
 // Application Directory Name
 // TODO: Change it only if you changed the 'app' directory
 define('ADN', 'app/');
 
 // Home Directory
-// TODO: have to change
+// TODO: Change according to your server home directory
 define('HOME_DIR', 'C:/xampp/');
 
 // Public Directory
-// TODO: have to change
+// TODO: Change according to your server public directory
 define('PUBLIC_DIR', HOME_DIR . 'htdocs/');
-
 
 // Base directory
 define('DIR_', PUBLIC_DIR . WDN);
 // Relative directory path
-define('DIR_STORAGE', HOME_DIR . 'storage_sam_ucm/');
+define('DIR_STORAGE', HOME_DIR . 'storage_sam/');
 define('DIR_API', DIR_ .'api/');
 define('DIR_TRANSFER', DIR_ .'transfer/');
 define('DIR_APPFILE', DIR_ .'appfile/');
@@ -42,9 +43,8 @@ define('DIR_FILE', DIR_STORAGE . 'file/');
 define('DIR_LOGS', DIR_STORAGE . 'logs/');
 define('DIR_SESSION', DIR_STORAGE . 'session/');
 
-
 // DB
-// TODO: have to update sql connection data
+// TODO: Change as per your SQL database connection
 define('DB_DRIVER', 'mysqli');
 define('DB_HOSTNAME', 'localhost');
 define('DB_USERNAME', 'root');
@@ -54,10 +54,13 @@ define('DB_PORT', '3306');
 define('DB_PREFIX', '');
 
 // Encryption
-// TODO: have to chance the encryption hash key
-define('ENCRYPTION_HASH', '6d2d9f1ec2ec849e9dd3433213ffb509');
+// TODO: Set a 32 digit key as you link
+define('ENCRYPTION_HASH', '6d8d9f1ec2ec849e6dd3433213ffb734');
 
 // Cache
-define('CACHE_PREFIX', 'SAAM'); // For "Alternative PHP Cache" or Memcache driver
+define('CACHE_PREFIX', 'SAM'); // For "Alternative PHP Cache" or Memcache driver
 define('CACHE_HOSTNAME', ''); // for Memcache driver
 define('CACHE_PORT', ''); // for Memcache driver
+
+// Server
+define('SERVER', PROTOCOL.'://'.DOMAIN.'/');

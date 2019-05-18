@@ -13,6 +13,7 @@ if ($devMode){
     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
     header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
+
     // set the defined token for development mode
     $session->start('thisIsDevelopmentModeToken');
 } else {
